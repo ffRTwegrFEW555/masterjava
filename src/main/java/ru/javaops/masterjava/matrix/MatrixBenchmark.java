@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Timeout(time = 5, timeUnit = TimeUnit.MINUTES)
 public class MatrixBenchmark {
 
-    private static final int MATRIX_SIZE = 1000;
+    private static final int MATRIX_SIZE = 1500;
     private static final int[][] MATRIX_A = MatrixUtilOriginal.create(MATRIX_SIZE);
     private static final int[][] MATRIX_B = MatrixUtilOriginal.create(MATRIX_SIZE);
     private static final int[][] MATRIX_C = MatrixUtilOriginal.singleThreadMultiply(MATRIX_A, MATRIX_B);
@@ -53,23 +53,44 @@ public class MatrixBenchmark {
         Benchmarks
      */
 
-    @Benchmark
+    /*@Benchmark
     public int[][] testOriginalSingle() throws ExecutionException, InterruptedException {
         final int[][] matrixC = MatrixUtilOriginal.singleThreadMultiply(MATRIX_A, MATRIX_B);
         if (!MatrixUtilCustom.compare(MATRIX_C, matrixC)) throw new RuntimeException("Not equals.");
         return matrixC;
-    }
+    }*/
 
-    @Benchmark
+    /*@Benchmark
     public int[][] testCustomSingle() throws ExecutionException, InterruptedException {
         final int[][] matrixC = MatrixUtilCustom.singleThreadMultiply(MATRIX_A, MATRIX_B);
+        if (!MatrixUtilCustom.compare(MATRIX_C, matrixC)) throw new RuntimeException("Not equals.");
+        return matrixC;
+    }*/
+
+    @Benchmark
+    public int[][] testCustomConcurrent() throws ExecutionException, InterruptedException {
+        final int[][] matrixC = MatrixUtilCustom.concurrentMultiply(MATRIX_A, MATRIX_B, EXECUTOR);
+        if (!MatrixUtilCustom.compare(MATRIX_C, matrixC)) throw new RuntimeException("Not equals.");
+        return matrixC;
+    }
+
+/*    @Benchmark
+    public int[][] testConcurrentMultiplyStreams() throws ExecutionException, InterruptedException {
+        final int[][] matrixC = MatrixUtilColleagues.concurrentMultiplyStreams(MATRIX_A, MATRIX_B, EXECUTOR);
         if (!MatrixUtilCustom.compare(MATRIX_C, matrixC)) throw new RuntimeException("Not equals.");
         return matrixC;
     }
 
     @Benchmark
-    public int[][] testCustomConcurrent() throws ExecutionException, InterruptedException {
-        final int[][] matrixC = MatrixUtilCustom.concurrentMultiply(MATRIX_A, MATRIX_B, EXECUTOR);
+    public int[][] testConcurrentMultiply2() throws ExecutionException, InterruptedException {
+        final int[][] matrixC = MatrixUtilColleagues.concurrentMultiply2(MATRIX_A, MATRIX_B, EXECUTOR);
+        if (!MatrixUtilCustom.compare(MATRIX_C, matrixC)) throw new RuntimeException("Not equals.");
+        return matrixC;
+    }*/
+
+    @Benchmark
+    public int[][] testConcurrentMultiply3() throws ExecutionException, InterruptedException {
+        final int[][] matrixC = MatrixUtilColleagues.concurrentMultiply3(MATRIX_A, MATRIX_B, EXECUTOR);
         if (!MatrixUtilCustom.compare(MATRIX_C, matrixC)) throw new RuntimeException("Not equals.");
         return matrixC;
     }

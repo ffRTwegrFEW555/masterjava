@@ -28,29 +28,23 @@ public class MatrixUtilCustom {
         final int bLengthH = matrixB[0].length;
         if (bLengthH == 0 || matrixA[0].length != bLengthV) return new int[0][0];
 
-        final int[][] matrixC = new int[aLengthV][bLengthH];
-        final int[][] matrixBReverse = new int[bLengthH][bLengthV];
+        final int[][] matrixC = new int[aLengthV][0];
         final CountDownLatch cdl = new CountDownLatch(aLengthV);
-
-        for (int i = 0; i < bLengthH; i++) {
-            for (int j = 0; j < bLengthV; j++) {
-                matrixBReverse[i][j] = matrixB[j][i];
-            }
-        }
 
         for (int i = 0; i < aLengthV; i++) {
             final int finalI = i;
             executor.submit(new Runnable() {
                 @Override
                 public void run() {
-                    for (int j = 0; j < bLengthH; j++) {
-                        int sum = 0;
-                        for (int k = 0; k < bLengthV; k++) {
-                            sum += matrixA[finalI][k] * matrixBReverse[j][k];
+                    final int[] tempArray = new int[bLengthH];
+                    for (int j = 0; j < bLengthV; j++) {
+                        final int n = matrixA[finalI][j];
+                        for (int l = 0; l < bLengthH; l++) {
+                            tempArray[l] += n * matrixB[j][l];
                         }
-                        matrixC[finalI][j] = sum;
-                        if (j == bLengthH - 1) cdl.countDown();
                     }
+                    matrixC[finalI] = tempArray;
+                    cdl.countDown();
                 }
             });
         }
@@ -71,23 +65,17 @@ public class MatrixUtilCustom {
         final int bLengthH = matrixB[0].length;
         if (bLengthH == 0 || matrixA[0].length != bLengthV) return new int[0][0];
 
-        final int[][] matrixC = new int[aLengthV][bLengthH];
-        final int[][] matrixBReverse = new int[bLengthH][bLengthV];
-
-        for (int i = 0; i < bLengthH; i++) {
-            for (int j = 0; j < bLengthV; j++) {
-                matrixBReverse[i][j] = matrixB[j][i];
-            }
-        }
+        final int[][] matrixC = new int[aLengthV][0];
 
         for (int i = 0; i < aLengthV; i++) {
-            for (int j = 0; j < bLengthH; j++) {
-                int sum = 0;
-                for (int k = 0; k < bLengthV; k++) {
-                    sum += matrixA[i][k] * matrixBReverse[j][k];
+            final int[] tempArray = new int[bLengthH];
+            for (int j = 0; j < bLengthV; j++) {
+                final int n = matrixA[i][j];
+                for (int l = 0; l < bLengthH; l++) {
+                    tempArray[l] += n * matrixB[j][l];
                 }
-                matrixC[i][j] = sum;
             }
+            matrixC[i] = tempArray;
         }
 
         return matrixC;
