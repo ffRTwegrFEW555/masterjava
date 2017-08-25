@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
  * gkislin
  * 03.07.2016
  */
-public class MatrixUtil {
+public class MatrixUtilOriginal {
 
     // TODO implement parallel multiplication matrixA*matrixB
     public static int[][] concurrentMultiply(int[][] matrixA, int[][] matrixB, ExecutorService executor) throws InterruptedException, ExecutionException {
