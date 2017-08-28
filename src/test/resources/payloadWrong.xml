@@ -9,7 +9,7 @@
             <fullName>Admin</fullName>
         </User>
         <User flag="deleted" city="spb" email="mail@yandex.ru" groups="masterjava01">
-            <fullName>Deleted</fullName>
+            <fullNae>Deleted</fullNae>
         </User>
     </Users>
     <Cities>
@@ -23,13 +23,8 @@
             <Description>Java EE project</Description>
         </Project>
         <Project id="masterjava">
-            <Name>MasterJava</Name>
+              <Name>MasterJava</Name>
             <Description>Java EE project+</Description>
         </Project>
     </Projects>
-    <Groups>
-        <Group id="topjava07" status="FINISHED" parent="topjava">TopJava07</Group>
-        <Group id="topjava08" status="CURRENT" parent="topjava">TopJava08</Group>
-        <Group id="masterjava01" status="REGISTERING" parent="masterjava">MasterJava01</Group>
-    </Groups>
-</Payload>
+    <Groups
