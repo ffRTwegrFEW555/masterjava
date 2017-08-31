@@ -1,6 +1,9 @@
 package ru.javaops.masterjava.xml.util;
 
+import ru.javaops.masterjava.xml.MainXml;
+
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
@@ -30,6 +33,21 @@ public class StaxStreamProcessor implements AutoCloseable {
                 if (value.equals(getValue(event))) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    public boolean doUntilEndTag(final int stopEvent, final String value, final String endTag) throws XMLStreamException {
+        while (reader.hasNext()) {
+            int event = reader.next();
+            if (event == stopEvent) {
+                if (value.equals(getValue(event))) {
+                    return true;
+                }
+            } else if (event == XMLStreamConstants.END_ELEMENT
+                    && endTag.equalsIgnoreCase(reader.getName().getLocalPart())) {
+                return false;
             }
         }
         return false;
