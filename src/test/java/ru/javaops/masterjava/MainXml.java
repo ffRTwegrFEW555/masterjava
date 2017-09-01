@@ -34,7 +34,7 @@ public class MainXml {
 
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
-            System.out.println("Format: projectName");
+            System.out.println("Required argument: projectName");
             System.exit(1);
         }
         String projectName = args[0];
